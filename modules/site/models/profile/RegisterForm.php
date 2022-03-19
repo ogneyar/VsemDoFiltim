@@ -39,19 +39,38 @@ class RegisterForm extends Model
      */
     public function rules()
     {
-        return [
+        $constants = require(__DIR__ . '/../../../../config/constants.php');
+        $local = $constants['LOCAL'];
+        if ( ! $local) {
+            return [
             [['recommender_id', 'partner', 'email', 'phone', 'firstname', 'lastname', 'patronymic', 'birthdate', 'citizen', 'registration', 'passport', 'passport_date', 'passport_department', 'password', 'password_repeat', 're_captcha'], 'required'],
-            [['partner'], 'integer'],
-            [['phone', 'ext_phones', 'firstname', 'lastname', 'patronymic', 'registration', 'residence', 'passport_department', 'recommender_info'], 'string', 'max' => 255],
-            [['password', 'password_repeat'], 'string', 'min' => 8, 'max' => 255],
-            [['citizen'], 'string', 'max' => 50],
-            [['passport', 'itn'], 'string', 'max' => 30],
-            [['skills'], 'safe'],
-            [['email'], 'email'],
-            [['email'], 'validateEmail'],
-            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Не совпадает с паролем.'],
-            [['re_captcha'], ReCaptchaValidator::className()],
-        ];
+                [['partner'], 'integer'],
+                [['phone', 'ext_phones', 'firstname', 'lastname', 'patronymic', 'registration', 'residence', 'passport_department', 'recommender_info'], 'string', 'max' => 255],
+                [['password', 'password_repeat'], 'string', 'min' => 8, 'max' => 255],
+                [['citizen'], 'string', 'max' => 50],
+                [['passport', 'itn'], 'string', 'max' => 30],
+                [['skills'], 'safe'],
+                [['email'], 'email'],
+                [['email'], 'validateEmail'],
+                ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Не совпадает с паролем.'],
+                [['re_captcha'], ReCaptchaValidator::className()],
+            ];
+        }else {
+            return [
+            [['recommender_id', 'partner', 'email', 'phone', 'firstname', 'lastname', 'patronymic', 'birthdate', 'citizen', 'registration', 'passport', 'passport_date', 'passport_department', 'password', 'password_repeat'/*, 're_captcha'*/], 'required'],
+                [['partner'], 'integer'],
+                [['phone', 'ext_phones', 'firstname', 'lastname', 'patronymic', 'registration', 'residence', 'passport_department', 'recommender_info'], 'string', 'max' => 255],
+                [['password', 'password_repeat'], 'string', 'min' => 8, 'max' => 255],
+                [['citizen'], 'string', 'max' => 50],
+                [['passport', 'itn'], 'string', 'max' => 30],
+                [['skills'], 'safe'],
+                [['email'], 'email'],
+                [['email'], 'validateEmail'],
+                ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => 'Не совпадает с паролем.'],
+                // [['re_captcha'], ReCaptchaValidator::className()],
+            ];
+        }
+        
     }
 
     public function validateEmail($attribute, $params)

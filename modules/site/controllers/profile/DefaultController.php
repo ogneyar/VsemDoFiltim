@@ -163,8 +163,9 @@ class DefaultController extends BaseController
 
     public function actionRegister()
     {
-        $config = require(__DIR__ . '/../../../../config/urlManager.php');
-        $baseUrl = $config['baseUrl'];
+        $constants = require(__DIR__ . '/../../../../config/constants.php');
+        $baseUrl = $constants['BASE_URL'];
+        $local = $constants['LOCAL'];
         
         $get = Yii::$app->request->get();
         if (isset($get['token'])) {
@@ -175,7 +176,7 @@ class DefaultController extends BaseController
                 $register->user->save();
                 $register->delete();
 
-                Email::send('active-profile', $register->user->email, [
+                if ( ! $local) Email::send('active-profile', $register->user->email, [
                     'firstname' => $register->user->firstname,
                     'patronymic' => $register->user->patronymic,
                     'url' => Url::to(['/profile/member/personal'], true),
@@ -184,15 +185,16 @@ class DefaultController extends BaseController
                 
                 Yii::$app->session->setFlash('profile-message', 'profile-register-success');
                 return $this->redirect($baseUrl . 'profile/message');
+                
             }
 
             Yii::$app->session->setFlash('profile-message', 'profile-register-fail');
             return $this->redirect($baseUrl . 'profile/message');
+            
         }
 
         $model = new RegisterForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) { 
-        // if ($model->load(Yii::$app->request->post())) {
 
             $transaction = Yii::$app->db->beginTransaction();
 
@@ -220,11 +222,12 @@ class DefaultController extends BaseController
                 $user->skills = $model->skills ? $model->skills : null;
                 $user->recommender_info = $model->recommender_info ? $model->recommender_info : null;
 
+                if ($local) $user->scenario = 'admin_creation';
+                else $user->re_captcha = $model->re_captcha;
+
                 $recommender = User::findOne(['number' => $model->recommender_id]); 
-                $user->recommender_id = $recommender->id ? $recommender->id : 95;
-                
-                $user->re_captcha = $model->re_captcha;
-                
+                $user->recommender_id = $recommender && $recommender->id || 1;
+                                
                 if (!$user->save()) {
                     throw new Exception('Ошибка создания пользователя!');
                 }
@@ -254,7 +257,7 @@ class DefaultController extends BaseController
             } catch (Exception $e) {
                 $transaction->rollBack();
 
-                Yii::$app->session->setFlash('profile-message', 'profile-register-fail');
+                Yii::$app->session->setFlash('profile-message', 'profile-register-fail');                
                 return $this->redirect($baseUrl . 'profile/message');
                 //throw new ForbiddenHttpException($e->getMessage());
             }
@@ -270,29 +273,31 @@ class DefaultController extends BaseController
             ];
             $candidate = Candidate::isCandidate($c_params);
             if ($candidate) {
-                Email::send('register-candidate', Yii::$app->params['superadminEmail'], [
+                if ( ! $local) Email::send('register-candidate', Yii::$app->params['superadminEmail'], [
                     'link' => $candidate
                 ]);
             }
 
-            Email::send('entity-request', $user->email, [
+            if ( ! $local) Email::send('entity-request', $user->email, [
                 'fio' => $user->respectedName,
                 'u_role' => 'Участника'
             ]);
             
             if ($emails = NoticeEmail::getEmails()) {
-                Email::send('admin-entity-request', $emails, [
+                if ( ! $local) Email::send('admin-entity-request', $emails, [
                     'fio' => $user->fullName,
                 ]);
             }
 
             Yii::$app->session->setFlash('profile-message', 'profile-entity-request');
             return $this->redirect($baseUrl . 'profile/message');
+            
         } else {
             
             $model->password =
             $model->password_repeat = '';
             $menu_first_level = Category::find()->where(['parent' => 0, 'visibility' => 1])->all();
+
 
             return $this->render('register', [
                 'model' => $model,

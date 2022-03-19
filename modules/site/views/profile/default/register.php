@@ -37,6 +37,11 @@ JS;
 $this->registerJs($script, $this::POS_END);
 ?>
 
+<?php
+$constants = require(__DIR__ . '/../../../../../config/constants.php');
+$local = $constants['LOCAL'];
+?>
+
 <?= Html::pageHeader(Html::encode($this->title), '', ['id' => 'page-header-category']) ?>
 
 <div id="inner-cat">
@@ -181,7 +186,7 @@ $this->registerJs($script, $this::POS_END);
 
     <?= $form->field($model, 'password_repeat')->passwordInput() ?>
     
-    <?= $form->field($model, 're_captcha')->widget(ReCaptcha::className()) ?>
+    <?php if ( ! $local) echo $form->field($model, 're_captcha')->widget(ReCaptcha::className()) ?>
 
     <div class="row">
         <div class="col-md-offset-2 col-md-6">
