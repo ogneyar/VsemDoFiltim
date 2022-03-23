@@ -85,7 +85,8 @@ $recomendations = ArrayHelper::merge(
 );
 
 $catalogue = [];
-$catalogue_root = Category::findOne('220');
+// $catalogue_root = Category::findOne('220');
+$catalogue_root = Category::findOne('24');
 if ($catalogue_root) {
     $catalogue = Category::getMenuItems($catalogue_root);
 }
@@ -386,8 +387,8 @@ $this->registerJs($script, $this::POS_END);
                     'cart' => new Cart(),
                 ]) ?>
                 <div class="container">
-                    <div class="row site-page">
-                        <?//= Yii::$app->controller->route ?>
+                    <div class="row site-page">                    
+                        <!-- <?//= Yii::$app->controller->route ?> -->
                         <?php if (!in_array(Yii::$app->controller->route, $account_routes)): ?>
                             <?php if ($menu_first_level): ?>
                                 <div class="col-md-2">

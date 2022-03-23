@@ -52,7 +52,8 @@ class ProductController extends BaseController
                 'all' => '&ndash; Все товары &ndash;',
                 'none' => '&ndash; Товары без категорий &ndash;',
             ],
-            Category::getSelectTree(Category::findOne(220))
+            // Category::getSelectTree(Category::findOne(220)) // В наличии
+            Category::getSelectTree(Category::findOne(24)) // Товары
         );
 
         if (is_numeric($category_id)) {

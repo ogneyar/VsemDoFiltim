@@ -50,7 +50,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/imag
             ]
         ]) ?>
         <?php $this->beginBody() ?>
-            <div class="wrap">
+        <div class="wrap">
                 <?= $this->renderFile('@app/modules/site/views/layouts/snippets/top-nav.php', [
                     'cart' => new Cart(),
                 ]) ?>
