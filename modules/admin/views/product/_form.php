@@ -152,7 +152,7 @@ $this->registerJs("CKEDITOR.plugins.addExternal('youtube', '/ckeditor/plugins/yo
                     'pluginEvents' => [
                         'select2:select' => 'function() { 
                             var html = $.ajax({
-                                url: "/web/admin/product/get-categories",
+                                url: $constants["WEB"] . "/admin/product/get-categories",
                                 async: false,
                                 type: "POST",
                                 data: {provider_id: $("#product-provider_id").val()}
@@ -213,7 +213,7 @@ $this->registerJs("CKEDITOR.plugins.addExternal('youtube', '/ckeditor/plugins/yo
                     'pluginEvents' => [
                         'select2:select' => 'function() { 
                             var html = $.ajax({
-                                url: "/web/admin/product/get-categories",
+                                url: $constants["WEB"] . "/admin/product/get-categories",
                                 async: false,
                                 type: "POST",
                                 data: {provider_id: $("#product-provider_id").val()}
@@ -253,7 +253,7 @@ $this->registerJs("CKEDITOR.plugins.addExternal('youtube', '/ckeditor/plugins/yo
                     'pluginEvents' => [
                         'select2:select' => 'function() { 
                             var html = $.ajax({
-                                url: "/web/admin/product/get-categories",
+                                url: $constants["WEB"] . "/admin/product/get-categories",
                                 async: false,
                                 type: "POST",
                                 data: {provider_id: $("#product-provider_id").val()}

@@ -72,8 +72,8 @@ class Photo extends \yii\db\ActiveRecord
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            $this->image && $this->image->delete();
-            $this->thumb && $this->thumb->delete();
+            $this->image ? $this->image->delete() : null; 
+            $this->thumb ? $this->thumb->delete() : null;
             return true;
         } else {
             return false;
@@ -82,12 +82,12 @@ class Photo extends \yii\db\ActiveRecord
 
     public function getImageUrl()
     {
-        return $this->image && $this->image->getUrl() || null;
+        return $this->image ? $this->image->getUrl() : null;
     }
 
     public function getThumbUrl()
     {
-        return $this->thumb && $this->thumb->getUrl() || null;
+        return $this->thumb ? $this->thumb->getUrl() : null;
     }
 
     protected function updateImage($maxSize, $file)
