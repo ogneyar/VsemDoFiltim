@@ -16,7 +16,7 @@ NavBar::begin([
     'brandLabel' => Html::tag(
         'div', 
         Html::decode('<a href="/"><img src="/images/logo-filtim.png" width="100px" /></a>&nbsp;&nbsp;' .  Yii::$app->params['name']), 
-        ['class' => 'pull-left']
+        ['class' => 'headerMain pull-left']
     ),
     'brandUrl' => Url::to(['/']),
     'options' => [
