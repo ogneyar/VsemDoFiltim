@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 use yii\web\JsExpression;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
-use yii\widgets\MaskedInput;
+// use yii\widgets\MaskedInput;
 use kartik\helpers\Html;
 use kartik\icons\Icon;
 use kartik\select2\Select2;
@@ -71,10 +71,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif ?>
 
     <?php if ($model->canFilled('phone')): ?>
-        <?= $form->field($model, 'phone')->widget(
-            MaskedInput::className(), [
-            'mask' => '+7 (999)-999-9999',
-        ]) ?>
+        <?= $form->field($model, 'phone')
+        // ->widget(
+        //     MaskedInput::className(), [
+        //     'mask' => '+7 (999)-999-9999',
+        // ]) 
+        ?>
     <?php endif ?>
 
     <?php if ($model->canFilled('email')): ?>
@@ -100,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="product-panel">
     <div id="main-cat-level-1" style="display: none;">
-        <?= Html::pageHeader('Исходная') ?>
+        <!-- <?//= Html::pageHeader('Исходная') ?> -->
         <?php foreach ($menu_first_level as $item): ?>
             <div class="col-md-4">
                 <?= Html::a(
@@ -108,14 +110,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         $item->url,
                         ['class' => 'thumbnail']
                 ) ?>
-                <h5 class="text-center" style="font-size: 20px;"><strong><?= $item->name ?></strong></h5>
+                <!-- <h5 class="text-center" style="font-size: 20px;"><strong><?//= $item->name ?></strong></h5> -->
             </div>
         <?php endforeach; ?>
     </div>
 
     <?php foreach ($menu_first_level as $f_level): ?>
         <div id="main-cat-level-2-<?= $f_level->id ?>" class="main-cat-level-2" style="display: none;">
-            <?= Html::pageHeader(Html::encode($f_level->fullName)) ?>
+            <?php 
+                if ($f_level->fullName == "Скидки") {
+                    echo Html::pageHeader(Html::encode("Скидки наших Партнёров"));
+                }else {
+                    echo Html::pageHeader(Html::encode($f_level->fullName)); 
+                }
+            ?>
             <?php $categories = Category::getMenuItems($f_level); ?>
             <?php if ($categories): ?>
                 <?php $categories = PurchaseProduct::getSortedViewItems($categories) ?>
