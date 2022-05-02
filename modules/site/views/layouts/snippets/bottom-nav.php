@@ -24,26 +24,27 @@ use yii\bootstrap\Nav;
 </div>
 
 <?php
-    //echo Nav::widget([
-    //     'items' => [
-    //         [
-    //             'label' => 'Политика конфиденциальности',
-    //             'url' => Url::to(['/page/policy']),
-    //             'linkOptions' => ['style' => 'color: red;']
-    //         ],
-    //         [
-    //             'label' => 'Пункты выдачи',
-    //             'url' => Url::to(['/page/punkty-vydachi']),
-    //         ],
-    //         [
-    //             'label' => 'Контакты',
-    //             'url' => Url::to(['/page/kontakty']),
-    //         ],
-    //         [
-    //             'label' => 'О нас',
-    //             'url' => Url::to(['/page/o-nas']),
-    //         ],
-    //     ],
-    //     'options' => ['class' => 'nav-pills pull-left'],
-    // ])
+    echo Nav::widget([
+        'items' => [
+            [
+                'label' => 'Политика конфиденциальности',
+                'url' => Url::to(['/page/policy']),
+                'linkOptions' => ['style' => 'color: red;']
+            ],
+            [
+                'label' => 'Пункты выдачи',
+                'url' => Url::to(['/page/punkty-vydachi']),
+            ],
+            [
+                'label' => 'Контакты',
+                'url' => Url::to(['/page/kontakty']),
+            ],
+            [
+                'label' => 'О нас',
+                'url' => Url::to(['/page/o-nas']),
+            ],
+        ],
+        'options' => ['class' => 'nav-pills pull-left'],
+    ])
 ?>
+<br />
